@@ -10,25 +10,24 @@ generator client {
 model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  avatar     String
-  first_name String
-  last_name  String
-  username   String     @unique
-  email      String     @unique
-  password   String
-  phone      String?    @unique
-  birthday   DateTime
-  address    String?
-  gender     Gender
-  status     UserStatus @default(ACTIVE)
+  avatar   String?
+  fullname String
+  username String     @unique
+  email    String     @unique
+  password String
+  phone    String?    @unique
+  birthday DateTime
+  address  String?
+  gender   Gender
+  status   UserStatus @default(ACTIVE)
 
   type         UserType
   department   Department? @relation(fields: [departmentId], references: [id])
-  departmentId String      @db.ObjectId
+  departmentId String?     @db.ObjectId
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Session   Session[]
+  sessions   Session[]
 }
 
 model Department {
@@ -37,9 +36,11 @@ model Department {
   name        String
   description String?
 
+  permission  BigInt
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  User      User[]
+  users      User[]
 }
 
 model Session {
